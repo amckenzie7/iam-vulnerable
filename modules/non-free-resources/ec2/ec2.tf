@@ -47,6 +47,7 @@ resource "aws_instance" "ec2" {
   associate_public_ip_address = true
   vpc_security_group_ids = [ aws_security_group.allow_ssh_from_world.id ]
 
+  ebs_optimized = true
 }
 
 
