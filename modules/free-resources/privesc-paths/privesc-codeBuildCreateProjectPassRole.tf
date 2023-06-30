@@ -9,25 +9,28 @@ resource "aws_iam_policy" "privesc-codeBuildCreateProjectPassRole-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Action = [
-          "codebuild:CreateProject",          
+          "codebuild:CreateProject",
           "codebuild:StartBuild",
-          "codebuild:StartBuildBatch",          
+          "codebuild:StartBuildBatch",
           "iam:PassRole",
-          "iam:ListRoles"          
+          "iam:ListRoles"
         ]
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 resource "aws_iam_role" "privesc-codeBuildCreateProjectPassRole-role" {
-  name                = "privesc-codeBuildCreateProjectPassRole-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-codeBuildCreateProjectPassRole-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -40,12 +43,18 @@ resource "aws_iam_role" "privesc-codeBuildCreateProjectPassRole-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 resource "aws_iam_user" "privesc-codeBuildCreateProjectPassRole-user" {
   name = "privesc-codeBuildCreateProjectPassRole-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "privesc-codeBuildCreateProjectPassRole-user" {
@@ -64,5 +73,5 @@ resource "aws_iam_role_policy_attachment" "privesc-codeBuildCreateProjectPassRol
   role       = aws_iam_role.privesc-codeBuildCreateProjectPassRole-role.name
   policy_arn = aws_iam_policy.privesc-codeBuildCreateProjectPassRole-policy.arn
 
-}  
+}
 

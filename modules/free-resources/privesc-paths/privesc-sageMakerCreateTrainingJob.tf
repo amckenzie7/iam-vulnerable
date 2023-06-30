@@ -9,22 +9,25 @@ resource "aws_iam_policy" "privesc-sageMakerCreateTrainingJobPassRole-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Action = [
           "sagemaker:CreateTrainingJob",
-          "iam:PassRole"          
+          "iam:PassRole"
         ]
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 resource "aws_iam_role" "privesc-sageMakerCreateTrainingJobPassRole-role" {
-  name                = "privesc-sageMakerCreateTrainingJobPassRole-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-sageMakerCreateTrainingJobPassRole-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -37,12 +40,18 @@ resource "aws_iam_role" "privesc-sageMakerCreateTrainingJobPassRole-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 resource "aws_iam_user" "privesc-sageMakerCreateTrainingJobPassRole-user" {
   name = "privesc-sageMakerCreateTrainingJobPassRole-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "privesc-sageMakerCreateTrainingJobPassRole-user" {
@@ -61,5 +70,5 @@ resource "aws_iam_role_policy_attachment" "privesc-sageMakerCreateTrainingJobPas
   role       = aws_iam_role.privesc-sageMakerCreateTrainingJobPassRole-role.name
   policy_arn = aws_iam_policy.privesc-sageMakerCreateTrainingJobPassRole-policy.arn
 
-}  
+}
 

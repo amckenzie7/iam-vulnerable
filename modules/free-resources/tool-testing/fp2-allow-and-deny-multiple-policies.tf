@@ -10,11 +10,14 @@ resource "aws_iam_policy" "fp2-allow-all" {
     Statement = [
       {
         Effect   = "Allow",
-        Action = "*",        
+        Action   = "*",
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_policy" "deny-all" {
@@ -29,19 +32,22 @@ resource "aws_iam_policy" "deny-all" {
     Statement = [
       {
         Effect   = "Deny",
-        Action = "*",        
+        Action   = "*",
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 
 resource "aws_iam_role" "fp2-allow-and-deny-multiple-policies-role" {
-  name                = "fp2-allow-and-deny-multiple-policies-role"
-  assume_role_policy  = jsonencode({
+  name = "fp2-allow-and-deny-multiple-policies-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -54,15 +60,21 @@ resource "aws_iam_role" "fp2-allow-and-deny-multiple-policies-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_user" "fp2-allow-and-deny-multiple-policies-user" {
   name = "fp2-allow-and-deny-multiple-policies-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "fp2-allow-and-deny-multiple-policies-user" {
- user = aws_iam_user.fp2-allow-and-deny-multiple-policies-user.name
+  user = aws_iam_user.fp2-allow-and-deny-multiple-policies-user.name
 }
 
 
