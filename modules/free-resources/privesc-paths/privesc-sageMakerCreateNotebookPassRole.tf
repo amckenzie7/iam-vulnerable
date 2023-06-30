@@ -9,28 +9,31 @@ resource "aws_iam_policy" "privesc-sageMakerCreateNotebookPassRole-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Action = [
-          "sagemaker:CreateNotebookInstance",          
+          "sagemaker:CreateNotebookInstance",
           "sagemaker:CreatePresignedNotebookInstanceUrl",
           "sagemaker:ListNotebookInstances",
           "sagemaker:DescribeNotebookInstance",
           "sagemaker:StopNotebookInstance",
           "sagemaker:DeleteNotebookInstance",
           "iam:PassRole",
-          "iam:ListRoles"          
+          "iam:ListRoles"
         ]
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 resource "aws_iam_role" "privesc-sageMakerCreateNotebookPassRole-role" {
-  name                = "privesc-sageMakerCreateNotebookPassRole-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-sageMakerCreateNotebookPassRole-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -43,12 +46,18 @@ resource "aws_iam_role" "privesc-sageMakerCreateNotebookPassRole-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 resource "aws_iam_user" "privesc-sageMakerCreateNotebookPassRole-user" {
   name = "privesc-sageMakerCreateNotebookPassRole-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "privesc-sageMakerCreateNotebookPassRole-user" {
@@ -67,5 +76,5 @@ resource "aws_iam_role_policy_attachment" "privesc-sageMakerCreateNotebookPassRo
   role       = aws_iam_role.privesc-sageMakerCreateNotebookPassRole-role.name
   policy_arn = aws_iam_policy.privesc-sageMakerCreateNotebookPassRole-policy.arn
 
-}  
+}
 

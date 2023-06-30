@@ -11,12 +11,15 @@ resource "aws_iam_policy" "privesc-high-priv-service-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "*"
+        Action   = "*"
         Effect   = "Allow"
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 data "aws_iam_policy" "AmazonSSMManagedInstanceCore" {
@@ -24,8 +27,8 @@ data "aws_iam_policy" "AmazonSSMManagedInstanceCore" {
 }
 
 resource "aws_iam_role" "privesc-high-priv-service-role" {
-  name                = "privesc-high-priv-service-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-high-priv-service-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -44,16 +47,22 @@ resource "aws_iam_role" "privesc-high-priv-service-role" {
             "eks.amazonaws.com",
             "sagemaker.amazonaws.com",
             "elasticbeanstalk.amazonaws.com"
-          ]            
+          ]
         }
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_instance_profile" "privesc-high-priv-service-policy_profile" {
- name = "privesc-high-priv-service-profile"
- role = aws_iam_role.privesc-high-priv-service-role.name
+  name = "privesc-high-priv-service-profile"
+  role = aws_iam_role.privesc-high-priv-service-role.name
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
@@ -62,7 +71,7 @@ resource "aws_iam_role_policy_attachment" "privesc-high-priv-service-role-attach
   role       = aws_iam_role.privesc-high-priv-service-role.name
   policy_arn = aws_iam_policy.privesc-high-priv-service-policy.arn
 
-}  
+}
 resource "aws_iam_role_policy_attachment" "privesc-high-priv-service-role-attach-policy2" {
   role       = aws_iam_role.privesc-high-priv-service-role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"

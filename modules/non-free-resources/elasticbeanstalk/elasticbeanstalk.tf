@@ -1,6 +1,9 @@
 resource "aws_elastic_beanstalk_application" "privesc-elasticbeanstalk-app" {
   name        = "privesc-elasticbeanstalk-app"
   description = "privesc-elasticbeanstalk-app"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_elastic_beanstalk_environment" "privesc-elasticbeanstalk-env" {
@@ -14,13 +17,16 @@ resource "aws_elastic_beanstalk_environment" "privesc-elasticbeanstalk-env" {
     name      = "IamInstanceProfile"
     value     = var.shared_high_priv_servicerole
   }
-  
-  setting {
-      namespace = "aws:elasticbeanstalk:environment"
-      name      = "ServiceRole"
-      value     = var.shared_high_priv_servicerole
-    }
 
+  setting {
+    namespace = "aws:elasticbeanstalk:environment"
+    name      = "ServiceRole"
+    value     = var.shared_high_priv_servicerole
+  }
+
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_elastic_beanstalk_application_version" "privesc-elasticbeanstalk-app-version" {
@@ -28,4 +34,7 @@ resource "aws_elastic_beanstalk_application_version" "privesc-elasticbeanstalk-a
   application = aws_elastic_beanstalk_application.privesc-elasticbeanstalk-app.name
   bucket      = "my-test-bucket-for-ebs"
   key         = "latest.zip"
+  tags = {
+    user = "pchandaliya"
+  }
 }
