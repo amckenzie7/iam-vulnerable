@@ -14,17 +14,20 @@ resource "aws_iam_policy" "privesc2-SetExistingDefaultPolicyVersion" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "iam:SetDefaultPolicyVersion"
+        Action   = "iam:SetDefaultPolicyVersion"
         Effect   = "Allow"
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_role" "privesc2-SetExistingDefaultPolicyVersion-role" {
-  name                = "privesc2-SetExistingDefaultPolicyVersion-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc2-SetExistingDefaultPolicyVersion-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -37,16 +40,22 @@ resource "aws_iam_role" "privesc2-SetExistingDefaultPolicyVersion-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_user" "privesc2-SetExistingDefaultPolicyVersion-user" {
   name = "privesc2-SetExistingDefaultPolicyVersion-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
- resource "aws_iam_access_key" "privesc2-SetExistingDefaultPolicyVersion-user" {
-   user = aws_iam_user.privesc2-SetExistingDefaultPolicyVersion-user.name
- }
+resource "aws_iam_access_key" "privesc2-SetExistingDefaultPolicyVersion-user" {
+  user = aws_iam_user.privesc2-SetExistingDefaultPolicyVersion-user.name
+}
 
 
 resource "aws_iam_user_policy_attachment" "privesc2-SetExistingDefaultPolicyVersion-user-attach-policy" {

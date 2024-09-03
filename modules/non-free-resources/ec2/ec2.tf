@@ -19,11 +19,11 @@ resource "aws_security_group" "allow_ssh_from_world" {
   description = "Allow SSH inbound traffic from world"
 
   ingress {
-    description      = "SSH from world"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "SSH from world"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -36,17 +36,21 @@ resource "aws_security_group" "allow_ssh_from_world" {
 
   tags = {
     Name = "allow_ssh_from_world"
+    user = "pchandaliya"
   }
 }
 
 
 resource "aws_instance" "ec2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.nano"
-  iam_instance_profile = "privesc-high-priv-service-profile"
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = "t3.nano"
+  iam_instance_profile        = "privesc-high-priv-service-profile"
   associate_public_ip_address = true
-  vpc_security_group_ids = [ aws_security_group.allow_ssh_from_world.id ]
+  vpc_security_group_ids      = [aws_security_group.allow_ssh_from_world.id]
 
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 

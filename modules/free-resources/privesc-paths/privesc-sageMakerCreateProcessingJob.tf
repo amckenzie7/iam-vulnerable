@@ -9,22 +9,25 @@ resource "aws_iam_policy" "privesc-sageMakerCreateProcessingJobPassRole-policy" 
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Action = [
           "sagemaker:CreateProcessingJob",
-          "iam:PassRole"          
+          "iam:PassRole"
         ]
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 resource "aws_iam_role" "privesc-sageMakerCreateProcessingJobPassRole-role" {
-  name                = "privesc-sageMakerCreateProcessingJobPassRole-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-sageMakerCreateProcessingJobPassRole-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -37,12 +40,18 @@ resource "aws_iam_role" "privesc-sageMakerCreateProcessingJobPassRole-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 resource "aws_iam_user" "privesc-sageMakerCreateProcessingJobPassRole-user" {
   name = "privesc-sageMakerCreateProcessingJobPassRole-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "privesc-sageMakerCreateProcessingJobPassRole-user" {
@@ -61,5 +70,5 @@ resource "aws_iam_role_policy_attachment" "privesc-sageMakerCreateProcessingJobP
   role       = aws_iam_role.privesc-sageMakerCreateProcessingJobPassRole-role.name
   policy_arn = aws_iam_policy.privesc-sageMakerCreateProcessingJobPassRole-policy.arn
 
-}  
+}
 
