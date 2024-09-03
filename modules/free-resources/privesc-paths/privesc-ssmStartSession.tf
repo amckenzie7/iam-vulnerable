@@ -9,27 +9,30 @@ resource "aws_iam_policy" "privesc-ssmStartSession-policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Effect   = "Allow"
+        Effect = "Allow"
         Action = [
           "ec2:DescribeInstances",
           "ssm:StartSession",
-           "ssm:DescribeSessions",
-            "ssm:GetConnectionStatus",
-            "ssm:DescribeInstanceProperties",
-            "ssm:TerminateSession",
-            "ssm:ResumeSession"
+          "ssm:DescribeSessions",
+          "ssm:GetConnectionStatus",
+          "ssm:DescribeInstanceProperties",
+          "ssm:TerminateSession",
+          "ssm:ResumeSession"
         ]
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 
 resource "aws_iam_role" "privesc-ssmStartSession-role" {
-  name                = "privesc-ssmStartSession-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc-ssmStartSession-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -42,12 +45,18 @@ resource "aws_iam_role" "privesc-ssmStartSession-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 
 resource "aws_iam_user" "privesc-ssmStartSession-user" {
   name = "privesc-ssmStartSession-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_access_key" "privesc-ssmStartSession-user" {
@@ -66,5 +75,5 @@ resource "aws_iam_role_policy_attachment" "privesc-ssmStartSession-role-attach-p
   role       = aws_iam_role.privesc-ssmStartSession-role.name
   policy_arn = aws_iam_policy.privesc-ssmStartSession-policy.arn
 
-}  
+}
 

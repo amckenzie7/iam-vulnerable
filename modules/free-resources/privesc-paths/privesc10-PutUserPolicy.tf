@@ -9,17 +9,20 @@ resource "aws_iam_policy" "privesc10-PutUserPolicy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "iam:PutUserPolicy"
+        Action   = "iam:PutUserPolicy"
         Effect   = "Allow"
         Resource = "*"
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_role" "privesc10-PutUserPolicy-role" {
-  name                = "privesc10-PutUserPolicy-role"
-  assume_role_policy  = jsonencode({
+  name = "privesc10-PutUserPolicy-role"
+  assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
@@ -32,16 +35,22 @@ resource "aws_iam_role" "privesc10-PutUserPolicy-role" {
       },
     ]
   })
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
 resource "aws_iam_user" "privesc10-PutUserPolicy-user" {
   name = "privesc10-PutUserPolicy-user"
   path = "/"
+  tags = {
+    user = "pchandaliya"
+  }
 }
 
- resource "aws_iam_access_key" "privesc10-PutUserPolicy-user" {
-   user = aws_iam_user.privesc10-PutUserPolicy-user.name
- }
+resource "aws_iam_access_key" "privesc10-PutUserPolicy-user" {
+  user = aws_iam_user.privesc10-PutUserPolicy-user.name
+}
 
 
 resource "aws_iam_user_policy_attachment" "privesc10-PutUserPolicy-user-attach-policy" {
